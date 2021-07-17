@@ -8,16 +8,15 @@ export default function useUserPage() {
   });
 
   useEffect(() => {
-    Promise.all([
-      axios.get('http://localhost:8080/api/users'),
-      axios.get('http://localhost:8080/api/interests'),
-    ]).then((res) => {
-      console.log('res', res);
-      setState({
-        users: res[0].data.users,
-        interests: res[1].data.interests,
-      });
-    });
+    Promise.all([axios.get('/api/users'), axios.get('/api/interests')]).then(
+      (res) => {
+        console.log('res', res);
+        setState({
+          users: res[0].data.users,
+          interests: res[1].data.interests,
+        });
+      }
+    );
   }, []);
 
   return { state };

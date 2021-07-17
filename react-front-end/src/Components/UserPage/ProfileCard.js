@@ -112,7 +112,7 @@ export default function ProfileCard(props) {
 
     if (checkIfLiked(favorite, Number(id), Number(props.id))) {
       axios
-        .put('http://localhost:8080/api/deleteFavorite', {
+        .put('/api/deleteFavorite', {
           newFavorite: { ...newFavorite },
         })
         .then(() => {
@@ -120,7 +120,7 @@ export default function ProfileCard(props) {
         });
     } else {
       axios
-        .put('http://localhost:8080/api/favorites', {
+        .put('/api/favorites', {
           newFavorite: { ...newFavorite },
         })
         .then(() => {
@@ -146,7 +146,7 @@ export default function ProfileCard(props) {
 
     let time = today.toLocaleString('en-GB');
     axios
-      .put('http://localhost:8080/api/users/:id/messages', {
+      .put('/api/users/:id/messages', {
         newMessage: { ...newMessage, creates_on: time },
       })
       .then((res) => {
@@ -167,7 +167,7 @@ export default function ProfileCard(props) {
     };
 
     axios
-      .put('http://localhost:8080/api/blocks', {
+      .put('/api/blocks', {
         newBlock: { ...newBlock },
       })
       .then(() => {

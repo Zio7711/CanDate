@@ -114,7 +114,7 @@ export default function NavBar(props) {
   const [tag, setTags] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/tags').then((res) => {
+    axios.get('/api/tags').then((res) => {
       setTags(res.data.tags);
     });
   }, []);

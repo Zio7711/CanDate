@@ -61,7 +61,7 @@ export default function Form(props) {
     };
 
     axios
-      .put('http://localhost:8080/api/users', { newUser })
+      .put('/api/users', { newUser })
       .then(() => console.log('done'))
       .catch((err) => console.log(err));
   };

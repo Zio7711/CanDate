@@ -48,7 +48,7 @@ export default function Question(props) {
   const [description, setDescription] = useState('');
   const [url, setUrl] = useState('');
 
-  // update new signed up user 
+  // update new signed up user
   const update = (gender, height, address, age, description, url, id) => {
     let updateUser = {
       id,
@@ -60,7 +60,7 @@ export default function Question(props) {
       url,
     };
     axios
-      .put(`http://localhost:8080/api/signup/${props.id}`, { updateUser })
+      .put(`api/signup/${props.id}`, { updateUser })
       .then(() => console.log('done'))
       .catch((err) => console.log(err));
   };

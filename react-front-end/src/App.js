@@ -46,12 +46,12 @@ function App() {
 
   useEffect(() => {
     Promise.all([
-      axios.get('http://localhost:8080/api/users'),
-      axios.get('http://localhost:8080/api/message'),
-      axios.get('http://localhost:8080/api/tags'),
-      axios.get('http://localhost:8080/api/favorite'),
-      axios.get('http://localhost:8080/api/user_tag'),
-      axios.get('http://localhost:8080/api/block'),
+      axios.get('/api/users'),
+      axios.get('/api/message'),
+      axios.get('/api/tags'),
+      axios.get('/api/favorite'),
+      axios.get('/api/user_tag'),
+      axios.get('/api/block'),
     ])
       .then((all) => {
         const [user, message, tag, favorite, user_tag, block] = all;

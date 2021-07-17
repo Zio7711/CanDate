@@ -60,7 +60,7 @@ const ChatScreen = (props) => {
     let today = new Date(timeElapsed);
     let time = today.toLocaleString('en-GB');
     axios
-      .put('http://localhost:8080/api/users/:id/messages', {
+      .put(`/api/users/${id}/messages`, {
         newMessage: { ...newMessage, creates_on: time },
       })
       .then((res) => {
