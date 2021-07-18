@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './NavBar.scss';
 import AppBar from '@material-ui/core/AppBar';
-// import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import FilterPopUp from './FilterPopUp';
-import axios from 'axios';
 import MailIcon from '@material-ui/icons/Mail';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -20,6 +18,7 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import CloseIcon from '@material-ui/icons/Close';
 import Switch from '@material-ui/core/Switch';
 
+//config dialog style
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -32,34 +31,6 @@ const styles = (theme) => ({
     color: theme.palette.grey[500],
   },
 });
-
-// const useStyles = makeStyles((theme) => ({
-//   grow: {
-//     flexGrow: 1,
-//   },
-//   title: {
-//     display: 'none',
-//     [theme.breakpoints.up('sm')]: {
-//       display: 'block',
-//     },
-//   },
-//   sectionDesktop: {
-//     display: 'none',
-//     [theme.breakpoints.up('md')]: {
-//       display: 'flex',
-//     },
-//   },
-//   root: {
-//     margin: 0,
-//     padding: theme.spacing(2),
-//   },
-//   closeButton: {
-//     position: 'absolute',
-//     right: theme.spacing(1),
-//     top: theme.spacing(1),
-//     color: theme.palette.grey[500],
-//   },
-// }));
 
 const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
@@ -85,23 +56,7 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-//from line 24 - 90 are all material ui functions
-
 export default function NavBar(props) {
-  const handleChange = (event) => {
-    setCheckedA(!checkedA);
-  };
-
-  const handleClickOpen = (e) => {
-    e.stopPropagation();
-    setOpen(true);
-  };
-  const handleClosed = () => {
-    setOpen(false);
-  };
-
-  const [open, setOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
   const {
     ageRange,
     updateAgeRange,
@@ -110,14 +65,35 @@ export default function NavBar(props) {
     buttonColor,
     checkedA,
     setCheckedA,
+    handleEmptyTagsClick,
+    tags,
+    handleTagClick,
+    setGender,
+    state,
+    setStartNum,
+    setEndNum,
+    handleFavorite,
+    handleMessageOpen,
+    name,
   } = props;
-  const [tag, setTags] = useState([]);
 
-  useEffect(() => {
-    axios.get('/api/tags').then((res) => {
-      setTags(res.data.tags);
-    });
-  }, []);
+  //use state hook
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  //event handler functions go here
+  const handleChange = (event) => {
+    setCheckedA(!checkedA);
+  };
+
+  const handleClickOpen = (e) => {
+    e.stopPropagation();
+    setOpen(true);
+  };
+
+  const handleClosed = () => {
+    setOpen(false);
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -145,10 +121,8 @@ export default function NavBar(props) {
 
           <div className="nav-bar-tab">
             <div>
-              {/* <Tab label="Filter" onClick={(e) => handleClickOpen(e)} /> */}
               <Button className="favorite" onClick={(e) => handleClickOpen(e)}>
-                {' '}
-                Filter{' '}
+                Filter
               </Button>
               <Dialog
                 onClose={(e) => handleClosed(e)}
@@ -164,19 +138,19 @@ export default function NavBar(props) {
                 <DialogContent dividers>
                   <Typography gutterBottom>
                     <FilterPopUp
-                      handleTagClick={props.handleTagClick}
+                      handleTagClick={handleTagClick}
                       handleAddressClick={handleAddressClick}
-                      content={tag}
+                      content={tags}
                       save={handleClosed}
                       savebtn={<Button>Save</Button>}
                       ageRange={ageRange}
                       updateAgeRange={updateAgeRange}
                       users={users}
                       buttonColor={buttonColor}
-                      setGender={props.setGender}
-                      state={props.state}
-                      setStartNum={props.setStartNum}
-                      setEndNum={props.setEndNum}
+                      setGender={setGender}
+                      state={state}
+                      setStartNum={setStartNum}
+                      setEndNum={setEndNum}
                     />
                   </Typography>
                   <div className="filter_buttons">
@@ -186,7 +160,7 @@ export default function NavBar(props) {
                     <button
                       className="delete"
                       label="Clear Filter"
-                      onClick={() => props.handleEmptyTagsClick()}
+                      onClick={() => handleEmptyTagsClick()}
                     >
                       Clear Filter
                     </button>
@@ -198,7 +172,7 @@ export default function NavBar(props) {
               <Button
                 className="favorite"
                 onClick={(e) => {
-                  props.handleFavorite(e);
+                  handleFavorite(e);
                   handleChange();
                 }}
               >
@@ -208,7 +182,7 @@ export default function NavBar(props) {
               <Switch
                 checked={checkedA}
                 onClick={(e) => {
-                  props.handleFavorite(e);
+                  handleFavorite(e);
                   handleChange();
                 }}
               />
@@ -218,7 +192,7 @@ export default function NavBar(props) {
             <IconButton
               aria-label="show 4 new mails"
               color="inherit"
-              onClick={(e) => props.handleMessageOpen(e)}
+              onClick={(e) => handleMessageOpen(e)}
             >
               <Badge color="secondary" variant="dot">
                 <MailIcon />
@@ -251,8 +225,7 @@ export default function NavBar(props) {
             </Menu>
 
             <p style={{ marginTop: '14px' }}>
-              Welcome{' '}
-              <strong>{props.name[0] && props.name[0]['first_name']}</strong>
+              Welcome <strong>{name[0] && name[0]['first_name']}</strong>
             </p>
           </div>
         </Toolbar>

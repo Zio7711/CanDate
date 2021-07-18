@@ -30,18 +30,10 @@ function App() {
       realTimeData = event.data;
 
       if (messages.length !== 0 && realTimeData) {
-        // const needToSet = [...messages, ...JSON.parse(realTimeData)];
-
-        // setMessages(needToSet);
         const parsedData = JSON.parse(realTimeData);
         setMessages((prev) => [...prev, ...parsedData]);
       }
     };
-
-    // socket.onclose = function () {
-    //   console.log('Close');
-    // };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
 
   useEffect(() => {
@@ -88,7 +80,7 @@ function App() {
   const checkPassword = (password, id) => {
     const hashedPassword = bcrypt.hashSync(password, 10);
     if (bcrypt.compareSync(password, hashedPassword)) {
-      window.location.replace(`http://localhost:3002/user/${id}`);
+      window.location.replace(`/user/${id}`);
       return;
     }
     return false;
@@ -121,7 +113,6 @@ function App() {
               loading={loading}
               messages={messages}
               setMessages={setMessages}
-              // zio add for testing
               realTimeData={realTimeData}
               favorite={favorite}
               block={block}

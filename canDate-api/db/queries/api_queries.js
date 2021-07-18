@@ -43,7 +43,6 @@ const getAllTags = () => {
 
 const getAllMessages = () => {
   const queryStatement = `SELECT * FROM message
-
   `;
   return db
     .query(queryStatement)
@@ -98,16 +97,9 @@ const newUserTag = (newTagUser) => {
 
   const queryStatement = `INSERT INTO user_tag(user_id, tag_id) VALUES ($1, $2);`;
 
-  return (
-    db
-      .query(queryStatement, value)
-      // .then(() => {
-      //   console.log("successes");
-      // })
-      .catch((err) => {
-        return err;
-      })
-  );
+  return db.query(queryStatement, value).catch((err) => {
+    return err;
+  });
 };
 
 const updateUser = (updateUser) => {
@@ -124,16 +116,9 @@ const updateUser = (updateUser) => {
   const queryStatement = `UPDATE users
      SET gender = $1, height = $2, address = $3, age = $4, profile_photo = $5, about_me = $6
      WHERE id = $7`;
-  return (
-    db
-      .query(queryStatement, value)
-      // .then(() => {
-      //   console.log("successes");
-      // })
-      .catch((err) => {
-        return err;
-      })
-  );
+  return db.query(queryStatement, value).catch((err) => {
+    return err;
+  });
 };
 
 const getAllFavoriteList = () => {
